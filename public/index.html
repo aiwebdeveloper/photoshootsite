@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#e9c89f" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Photoshoot Studio" />
-    <title>VisionForge Studio</title>
+    <meta name="apple-mobile-web-app-title" content="VisionForge Studio" />
+    <title>VisionForge Studio — AI Media Creation</title>
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -22,353 +22,269 @@
     <div class="ambient ambient--left"></div>
     <div class="ambient ambient--right"></div>
 
-    <div class="app-frame">
-      <header class="topbar panel panel--topbar">
-        <div class="brand">
-          <div class="brand__mark">VF</div>
-          <div>
-            <p class="eyebrow">Creative Suite</p>
-            <h1>VisionForge Studio</h1>
-          </div>
+    <div class="app-container">
+      <!-- Top Bar -->
+      <header class="studio-header panel">
+        <div class="header__brand">
+          <div class="brand-mark">VF</div>
+          <h1>VisionForge Studio</h1>
         </div>
 
-        <nav class="mode-strip" aria-label="Studio areas">
-          <span class="mode-chip mode-chip--active">Edit</span>
-          <span class="mode-chip">Animate</span>
-          <span class="mode-chip">Preview</span>
+        <nav class="studio-modes">
+          <button class="mode-button mode-button--active" data-mode="edit">EDIT</button>
+          <button class="mode-button" data-mode="animate">ANIMATE</button>
+          <button class="mode-button" data-mode="preview">PREVIEW</button>
         </nav>
 
-        <div class="intro-actions">
-          <button type="button" class="ghost ghost--small install-button" id="installAppButton" hidden>
-            Install on mobile
+        <div class="header__actions">
+          <button type="button" class="ghost ghost--sm install-button" id="installAppButton" hidden>
+            Install
           </button>
+          <div id="configStatus" class="status-strip">Loading...</div>
         </div>
       </header>
 
-      <section class="hero-band panel">
-        <div class="hero-copy">
-          <p class="eyebrow">Studio workflow</p>
-          <h2>Soft editor feel, faster production flow</h2>
-          <p class="hero__lead">
-            Prompt enhance, batch retouch, animation planning aur 360 preview sab aik warm,
-            polished workspace mein. Layout reference jaisa tactile aur tablet-friendly rakha gaya hai.
-          </p>
-        </div>
-
-        <div id="configStatus" class="status-strip">Loading configuration...</div>
-      </section>
-
-      <main class="workspace-grid">
-        <section class="panel panel--primary">
-          <div class="panel__header panel__header--stack">
-            <div>
-              <p class="eyebrow">Photoshoot Studio</p>
-              <h3>Batch edit deck</h3>
-            </div>
-            <p class="helper">
-              Upload, styling rules, export settings aur results ko aik hi layered editing surface par rakha gaya hai.
-            </p>
+      <!-- Main Canvas Area -->
+      <main class="studio-workspace">
+        <!-- Canvas with Tool Overlays -->
+        <section class="canvas-container panel">
+          <div class="canvas-toolbar">
+            <button class="tool-button" title="Select">
+              <span class="tool-icon">👆</span>
+              <span class="tool-label">Select</span>
+            </button>
+            <button class="tool-button" title="Draw">
+              <span class="tool-icon">✏️</span>
+              <span class="tool-label">Draw</span>
+            </button>
+            <button class="tool-button" title="Shape">
+              <span class="tool-icon">⬜</span>
+              <span class="tool-label">Shape</span>
+            </button>
+            <button class="tool-button" title="Mask">
+              <span class="tool-icon">🎭</span>
+              <span class="tool-label">Mask</span>
+            </button>
+            <button class="tool-button" title="Layer">
+              <span class="tool-icon">📚</span>
+              <span class="tool-label">Layer</span>
+            </button>
           </div>
 
-          <div class="tool-cluster">
-            <div class="tool-cluster__head">
-              <span class="cluster-label">Input</span>
-              <span class="cluster-note">Up to 10 source photos</span>
+          <div class="canvas-display">
+            <div id="canvasPreview" class="canvas-main"></div>
+            <div class="canvas-props">
+              <div class="prop-row">
+                <label>Scale: <input type="text" value="1.2x" class="prop-input" /></label>
+              </div>
+              <div class="prop-row">
+                <label>Opacity: <input type="text" value="85%" class="prop-input" /></label>
+              </div>
+              <div class="prop-row">
+                <input type="color" value="#d09e73" class="prop-color" />
+              </div>
             </div>
-            <div class="two-col">
+          </div>
+        </section>
+
+        <!-- Control Panel -->
+        <aside class="control-panel">
+          <!-- EDIT Mode Controls -->
+          <section id="editMode" class="mode-section mode-section--active">
+            <div class="section-title">Photoshoot Batch Editor</div>
+            
+            <div class="tool-cluster">
+              <div class="cluster-head">Input</div>
               <label>
                 Upload images
                 <input id="photoshootUpload" type="file" accept="image/*" multiple />
-                <span class="muted-note">Ek dafa mein up to 10 images select karein.</span>
               </label>
               <label>
                 Background image
                 <input id="photoshootBackgroundImage" type="file" accept="image/*" />
               </label>
             </div>
-          </div>
 
-          <div class="tool-cluster">
-            <div class="tool-cluster__head">
-              <span class="cluster-label">Direction</span>
-              <span class="cluster-note">Natural language editing brief</span>
-            </div>
-            <label>
-              AI edit instructions
-              <textarea
-                id="photoshootInstructions"
-                rows="4"
-                placeholder="Background remove kr do, white luxury background add kr do, size 1200x1500 kr do, text 'NEW ARRIVAL' likh do"
-              ></textarea>
-            </label>
-            <div class="three-col">
-              <label class="checkbox">
-                <input id="photoshootRemoveBg" type="checkbox" />
-                <span>Remove background</span>
-              </label>
-              <label class="checkbox">
-                <input id="photoshootMaintainColors" type="checkbox" checked />
-                <span>Maintain real colors</span>
-              </label>
-              <label class="checkbox">
-                <input id="photoshootAutoApplyInstructions" type="checkbox" checked />
-                <span>Parse instructions automatically</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="tool-cluster">
-            <div class="tool-cluster__head">
-              <span class="cluster-label">Canvas</span>
-              <span class="cluster-note">Background, size and output</span>
-            </div>
-            <div class="three-col">
+            <div class="tool-cluster">
+              <div class="cluster-head">Direction</div>
               <label>
-                Background mode
-                <select id="photoshootBackgroundMode">
-                  <option value="transparent">Transparent</option>
-                  <option value="solid">Solid color</option>
-                  <option value="gradient">Gradient</option>
-                  <option value="image">Background image</option>
-                </select>
+                AI edit instructions
+                <textarea
+                  id="photoshootInstructions"
+                  placeholder="Background remove kr do, white luxury background add kr do, size 1200x1500 kr do..."
+                ></textarea>
               </label>
-              <label>
-                Background color
-                <input id="photoshootBgColor" type="color" value="#ffffff" />
-              </label>
-              <label>
-                Accent / gradient color
-                <input id="photoshootAccentColor" type="color" value="#dbeafe" />
-              </label>
-            </div>
-
-            <div class="three-col">
-              <label>
-                Output width
-                <input id="photoshootWidth" type="number" min="256" step="64" placeholder="e.g. 1200" />
-              </label>
-              <label>
-                Output height
-                <input id="photoshootHeight" type="number" min="256" step="64" placeholder="e.g. 1500" />
-              </label>
-              <label>
-                Export format
-                <select id="photoshootFormat">
-                  <option value="png">PNG</option>
-                  <option value="jpeg">JPEG</option>
-                  <option value="webp">WEBP</option>
-                </select>
-              </label>
-            </div>
-
-            <div class="three-col">
-              <label>
-                Export quality
-                <input id="photoshootQuality" type="range" min="50" max="100" value="92" />
-              </label>
-              <label>
-                Text overlay
-                <input id="photoshootText" type="text" placeholder="e.g. Summer Collection" />
-              </label>
-              <label>
-                Text color
-                <input id="photoshootTextColor" type="color" value="#111827" />
-              </label>
-            </div>
-          </div>
-
-          <div class="actions">
-            <button type="button" id="applyPhotoshootBatch">Apply to batch</button>
-            <button type="button" class="ghost" id="downloadPhotoshootBatch">Download all</button>
-          </div>
-
-          <p class="helper">
-            Batch upload maximum 10 images. Background removal local smart cutout hai aur plain / studio backgrounds par best kaam karti hai.
-          </p>
-
-          <div class="results-shell">
-            <div>
-              <div class="section-minihead">
-                <span class="cluster-label">Queued shots</span>
+              <div class="checkbox-group">
+                <label class="checkbox-label">
+                  <input id="photoshootRemoveBg" type="checkbox" />
+                  Remove background
+                </label>
+                <label class="checkbox-label">
+                  <input id="photoshootMaintainColors" type="checkbox" checked />
+                  Maintain real colors
+                </label>
+                <label class="checkbox-label">
+                  <input id="photoshootAutoApplyInstructions" type="checkbox" checked />
+                  Parse instructions
+                </label>
               </div>
-              <div id="photoshootBatchGrid" class="batch-grid"></div>
             </div>
-            <div>
-              <div class="section-minihead">
-                <span class="cluster-label">Processed results</span>
+
+            <div class="tool-cluster">
+              <div class="cluster-head">Canvas</div>
+              <div class="row-2">
+                <label>
+                  Background mode
+                  <select id="photoshootBackgroundMode">
+                    <option value="transparent">Transparent</option>
+                    <option value="solid">Solid color</option>
+                    <option value="gradient">Gradient</option>
+                    <option value="image">Background image</option>
+                  </select>
+                </label>
+                <label>
+                  BG Color
+                  <input id="photoshootBgColor" type="color" value="#ffffff" />
+                </label>
               </div>
-              <div id="photoshootResultsGrid" class="batch-grid"></div>
-            </div>
-          </div>
-        </section>
-
-        <aside class="studio-sidebar">
-          <form id="videoForm" class="panel">
-            <div class="panel__header panel__header--stack">
-              <div>
-                <p class="eyebrow">Motion Lab</p>
-                <h3>Animation board</h3>
+              <div class="row-3">
+                <label>
+                  Width
+                  <input id="photoshootWidth" type="number" min="256" step="64" placeholder="1200" />
+                </label>
+                <label>
+                  Height
+                  <input id="photoshootHeight" type="number" min="256" step="64" placeholder="1500" />
+                </label>
+                <label>
+                  Format
+                  <select id="photoshootFormat">
+                    <option value="png">PNG</option>
+                    <option value="jpeg">JPEG</option>
+                    <option value="webp">WEBP</option>
+                  </select>
+                </label>
               </div>
-              <p class="helper">Reference UI ki tarah concise controls aur preview-ready grouping.</p>
-            </div>
-
-            <label>
-              Animation notes
-              <textarea id="videoPrompt" rows="3" placeholder="soft luxury motion, realistic fabric, premium studio light"></textarea>
-            </label>
-
-            <div class="three-col three-col--compact">
-              <label>
-                Product type
-                <select id="videoProductType">
-                  <option value="undergarments">Undergarments</option>
-                  <option value="cosmetics">Cosmetics</option>
-                  <option value="fashion">Fashion</option>
-                  <option value="jewelry">Jewelry</option>
-                  <option value="bag-shoes">Bags / Shoes</option>
-                  <option value="general-product">General Product</option>
-                </select>
-              </label>
-              <label>
-                Animation style
-                <select id="videoStyle">
-                  <option value="product reveal">Product Reveal</option>
-                  <option value="360 showcase">360 Showcase</option>
-                  <option value="fabric movement">Fabric Movement</option>
-                  <option value="luxury studio sweep">Luxury Studio Sweep</option>
-                  <option value="cosmetic shine pass">Cosmetic Shine Pass</option>
-                  <option value="back closure focus">Back Closure Focus</option>
-                  <option value="macro texture pass">Macro Texture Pass</option>
-                  <option value="hanger rotation">Hanger Rotation</option>
-                </select>
-              </label>
-              <label>
-                Duration
-                <select id="videoDuration">
-                  <option value="15">15 seconds</option>
-                  <option value="30">30 seconds</option>
-                  <option value="60">1 minute</option>
-                </select>
-              </label>
-              <label>
-                Motion strength
-                <select id="motionStrength">
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                </select>
-              </label>
-              <label>
-                Camera move
-                <select id="shotType">
-                  <option value="360 orbit">360 Orbit</option>
-                  <option value="dolly in">Dolly In</option>
-                  <option value="side profile tracking">Side Profile Tracking</option>
-                  <option value="close-up hero shot">Close-up Hero Shot</option>
-                  <option value="tracking shot">Tracking Shot</option>
-                  <option value="top-down motion">Top-down Motion</option>
-                  <option value="back closure focus">Back Closure Focus</option>
-                </select>
-              </label>
-              <label>
-                Platform aspect ratio
-                <select id="videoAspectRatio">
-                  <option value="16:9">16:9 YouTube / Widescreen</option>
-                  <option value="9:16">9:16 TikTok / Reels / Shorts</option>
-                  <option value="1:1">1:1 Instagram Feed</option>
-                  <option value="4:5">4:5 Instagram Portrait</option>
-                  <option value="2.39:1">2.39:1 CinemaScope</option>
-                  <option value="21:9">21:9 Ultrawide</option>
-                  <option value="3:2">3:2 Landscape</option>
-                  <option value="2:3">2:3 Portrait</option>
-                  <option value="1.91:1">1.91:1 Facebook / LinkedIn</option>
-                  <option value="2:1">2:1 Panorama / 360</option>
-                </select>
-              </label>
-            </div>
-
-            <div class="three-col">
-              <label class="checkbox checkbox--stack">
-                <input id="is360Video" type="checkbox" />
-                <span>Use 360 product style</span>
-              </label>
-              <label>
-                Custom width
-                <input id="videoCustomWidth" type="number" min="256" step="64" placeholder="e.g. 1280" />
-              </label>
-              <label>
-                Custom height
-                <input id="videoCustomHeight" type="number" min="256" step="64" placeholder="e.g. 720" />
-              </label>
-            </div>
-
-            <label>
-              Upload one source image for animation
-              <input id="videoInputImage" type="file" accept="image/*" />
-            </label>
-
-            <div class="video-source-box">
-              <div class="video-source-box__top">
-                <strong>Current animation source</strong>
-                <button type="button" class="ghost ghost--small" id="useLatestImage">Use latest photoshoot result</button>
-              </div>
-              <div id="videoSourcePreview" class="video-source-preview">No source selected yet.</div>
             </div>
 
             <div class="actions">
-              <button type="submit">Generate Video</button>
-              <button type="button" class="ghost" id="enhanceVideoPrompt">Preview motion plan</button>
+              <button type="button" id="applyPhotoshootBatch">Apply to batch</button>
+              <button type="button" class="ghost" id="downloadPhotoshootBatch">Download all</button>
             </div>
-          </form>
 
-          <section class="panel">
-            <div class="panel__header panel__header--stack">
-              <div>
-                <p class="eyebrow">Output</p>
-                <h3>Prompt + media preview</h3>
+            <div class="results-section">
+              <div class="results-head">Queued shots</div>
+              <div id="photoshootBatchGrid" class="batch-grid"></div>
+            </div>
+            <div class="results-section">
+              <div class="results-head">Processed</div>
+              <div id="photoshootResultsGrid" class="batch-grid"></div>
+            </div>
+          </section>
+
+          <!-- ANIMATE Mode Controls -->
+          <section id="animateMode" class="mode-section">
+            <div class="section-title">Motion Lab</div>
+            
+            <form id="videoForm">
+              <div class="tool-cluster">
+                <div class="cluster-head">Animation Notes</div>
+                <label>
+                  <textarea
+                    id="videoPrompt"
+                    rows="3"
+                    placeholder="soft luxury motion, realistic fabric, premium studio light"
+                  ></textarea>
+                </label>
+              </div>
+
+              <div class="tool-cluster">
+                <div class="cluster-head">Parameters</div>
+                <div class="row-2">
+                  <label>
+                    Product type
+                    <select id="videoProductType">
+                      <option value="undergarments">Undergarments</option>
+                      <option value="cosmetics">Cosmetics</option>
+                      <option value="fashion">Fashion</option>
+                      <option value="jewelry">Jewelry</option>
+                    </select>
+                  </label>
+                  <label>
+                    Style
+                    <select id="videoStyle">
+                      <option value="product reveal">Product Reveal</option>
+                      <option value="360 showcase">360 Showcase</option>
+                      <option value="fabric movement">Fabric Movement</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="row-2">
+                  <label>
+                    Duration
+                    <select id="videoDuration">
+                      <option value="15">15s</option>
+                      <option value="30">30s</option>
+                      <option value="60">1m</option>
+                    </select>
+                  </label>
+                  <label>
+                    Motion
+                    <select id="motionStrength">
+                      <option value="low">Low</option>
+                      <option value="medium">Medium</option>
+                      <option value="high">High</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+
+              <div class="actions">
+                <button type="submit">Generate Video</button>
+                <button type="button" class="ghost" id="enhanceVideoPrompt">Preview</button>
+              </div>
+
+              <label>
+                Animation source
+                <input id="videoInputImage" type="file" accept="image/*" />
+              </label>
+              <div id="videoSourcePreview" class="source-preview">No source selected</div>
+            </form>
+          </section>
+
+          <!-- PREVIEW Mode -->
+          <section id="previewMode" class="mode-section">
+            <div class="section-title">Preview & Export</div>
+            
+            <div class="tool-cluster">
+              <div class="cluster-head">Output</div>
+              <div id="enhancedPromptBox" class="enhanced-box">Preview will appear here</div>
+              <div id="gallery" class="gallery"></div>
+            </div>
+
+            <div class="tool-cluster">
+              <div class="cluster-head">360 Space</div>
+              <label>
+                Load panorama
+                <input id="panoramaInput" type="file" accept="image/*" />
+              </label>
+              <div class="actions">
+                <button type="button" id="startSpin">Auto rotate</button>
+                <button type="button" class="ghost" id="recordSpin">Record</button>
+              </div>
+              <div id="panoramaViewer" class="viewer"></div>
+            </div>
+
+            <div class="tool-cluster">
+              <div class="cluster-head">History</div>
+              <div id="historyGrid" class="history-grid"></div>
+              <div class="actions">
+                <button type="button" class="ghost ghost--sm" id="clearAllHistory">Clear</button>
+                <button type="button" class="ghost ghost--sm" id="deleteSelectedHistory">Delete</button>
               </div>
             </div>
-            <div id="enhancedPromptBox" class="enhanced-box">Enhanced prompt preview yahan nazar aayega.</div>
-            <div id="gallery" class="gallery"></div>
           </section>
         </aside>
-
-        <section class="panel panel--secondary">
-          <div class="panel__header panel__header--stack">
-            <div>
-              <p class="eyebrow">360 Space</p>
-              <h3>Panorama viewer + recorder</h3>
-            </div>
-            <p class="helper">Preview zone ko bright canvas treatment diya gaya hai jisse product focus zyada clean lage.</p>
-          </div>
-
-          <label>
-            Load panorama image
-            <input id="panoramaInput" type="file" accept="image/*" />
-          </label>
-          <div class="actions">
-            <button type="button" id="startSpin">Auto rotate preview</button>
-            <button type="button" class="ghost" id="recordSpin">Record rotation</button>
-          </div>
-          <div id="panoramaViewer" class="viewer"></div>
-          <p class="helper">
-            Recorder browser-side WebM banata hai. Agar system mein FFmpeg ho to baad mein MP4 transcode add ki ja sakti hai.
-          </p>
-        </section>
-
-        <section class="panel panel--secondary">
-          <div class="panel__header">
-            <div>
-              <p class="eyebrow">History</p>
-              <h3>Images + videos history</h3>
-            </div>
-            <div class="history-actions">
-              <button type="button" class="ghost ghost--small" id="deleteSelectedHistory">Delete selected</button>
-              <button type="button" class="ghost ghost--small" id="clearAllHistory">Clear all</button>
-            </div>
-          </div>
-          <div id="historyGrid" class="history-grid"></div>
-        </section>
       </main>
     </div>
 

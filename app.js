@@ -1,5 +1,19 @@
 import * as THREE from "three";
 
+// Mode Management
+const modeSections = document.querySelectorAll(".mode-section");
+const modeButtons = document.querySelectorAll(".mode-button");
+
+modeButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const mode = btn.dataset.mode;
+    modeButtons.forEach((b) => b.classList.remove("mode-button--active"));
+    modeSections.forEach((section) => section.classList.remove("mode-section--active"));
+    btn.classList.add("mode-button--active");
+    document.getElementById(`${mode}Mode`).classList.add("mode-section--active");
+  });
+});
+
 const configStatus = document.getElementById("configStatus");
 const enhancedPromptBox = document.getElementById("enhancedPromptBox");
 const gallery = document.getElementById("gallery");
@@ -8,7 +22,6 @@ const videoForm = document.getElementById("videoForm");
 
 const enhanceVideoPromptButton = document.getElementById("enhanceVideoPrompt");
 const videoInputImage = document.getElementById("videoInputImage");
-const useLatestImageButton = document.getElementById("useLatestImage");
 const videoSourcePreview = document.getElementById("videoSourcePreview");
 const photoshootUpload = document.getElementById("photoshootUpload");
 const photoshootBackgroundImage = document.getElementById("photoshootBackgroundImage");
@@ -42,7 +55,6 @@ registerPwa();
 enhanceVideoPromptButton.addEventListener("click", () => previewEnhancedPrompt("video"));
 videoForm.addEventListener("submit", handleVideoSubmit);
 videoInputImage.addEventListener("change", handleVideoSourceChange);
-useLatestImageButton.addEventListener("click", useLatestGeneratedImage);
 photoshootUpload.addEventListener("change", handlePhotoshootUpload);
 applyPhotoshootBatchButton.addEventListener("click", applyPhotoshootBatch);
 downloadPhotoshootBatchButton.addEventListener("click", downloadPhotoshootBatch);
@@ -57,6 +69,7 @@ startSpinButton.addEventListener("click", () => {
   }
 });
 recordSpinButton.addEventListener("click", recordPanoramaSpin);
+
 
 async function loadConfig() {
   const response = await fetch("/api/config");
