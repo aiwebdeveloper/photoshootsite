@@ -1,0 +1,18 @@
+{
+  "name": "Photoshoot Studio",
+  "short_name": "Photoshoot",
+  "start_url": "/photoshoot",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#08111f",
+  "theme_color": "#08111f",
+  "description": "Mobile-friendly AI photoshoot and product animation studio.",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

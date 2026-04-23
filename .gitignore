@@ -1,4 +1,4 @@
 .env.local
 generated
-*.log
 node_modules/
+*.log
