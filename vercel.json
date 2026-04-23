@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "api/index.js", "use": "@vercel/node" },
-    { "src": "index.html", "use": "@vercel/static" },
-    { "src": "public/**/*", "use": "@vercel/static" }
-  ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/index.js" },
+    { "handle": "filesystem" },
     { "src": "/photoshoot/?", "dest": "/index.html" },
     { "src": "/mywebpage/?", "dest": "/index.html" },
     { "src": "/(.*)", "dest": "/index.html" }

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#08111f" />
+    <meta name="theme-color" content="#e9c89f" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Photoshoot Studio" />
@@ -13,58 +13,68 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <div class="shell">
-      <aside class="hero">
-        <div class="hero__badge">AI Media Studio</div>
-        <h1>VisionForge Studio</h1>
-        <p class="hero__lead">
-          Short prompt likhiye, detailed cinematic instructions khud ban jaiN gi. Image, inpaint,
-          animate, 360 preview aur stylized video workflows ek hi jagah.
-        </p>
-        <div class="hero__stats">
+    <div class="ambient ambient--left"></div>
+    <div class="ambient ambient--right"></div>
+
+    <div class="app-frame">
+      <header class="topbar panel panel--topbar">
+        <div class="brand">
+          <div class="brand__mark">VF</div>
           <div>
-            <span>Batch workflow</span>
-            <strong>Up to 10 photos at once</strong>
-          </div>
-          <div>
-            <span>Video modes</span>
-            <strong>Product, cosmetics, undergarments</strong>
-          </div>
-          <div>
-            <span>Spatial tools</span>
-            <strong>360 panorama preview + recorder</strong>
+            <p class="eyebrow">Creative Suite</p>
+            <h1>VisionForge Studio</h1>
           </div>
         </div>
-        <div class="hero__glow"></div>
-      </aside>
 
-      <main class="workspace">
-        <section class="panel panel--intro">
-          <div>
-            <p class="eyebrow">Creative control</p>
-            <h2>Generate, edit, animate, and present</h2>
-          </div>
-          <div class="intro-actions">
-            <button type="button" class="ghost ghost--small install-button" id="installAppButton" hidden>Install on mobile</button>
-            <div id="configStatus" class="status-strip">Loading configuration...</div>
-          </div>
-        </section>
+        <nav class="mode-strip" aria-label="Studio areas">
+          <span class="mode-chip mode-chip--active">Edit</span>
+          <span class="mode-chip">Animate</span>
+          <span class="mode-chip">Preview</span>
+        </nav>
 
-        <section class="grid">
-          <section class="panel panel--span">
-            <div class="panel__header">
-              <div>
-                <p class="eyebrow">Photoshoot Studio</p>
-                <h3>Batch upload, edit instructions, export controls</h3>
-              </div>
+        <div class="intro-actions">
+          <button type="button" class="ghost ghost--small install-button" id="installAppButton" hidden>
+            Install on mobile
+          </button>
+        </div>
+      </header>
+
+      <section class="hero-band panel">
+        <div class="hero-copy">
+          <p class="eyebrow">Studio workflow</p>
+          <h2>Soft editor feel, faster production flow</h2>
+          <p class="hero__lead">
+            Prompt enhance, batch retouch, animation planning aur 360 preview sab aik warm,
+            polished workspace mein. Layout reference jaisa tactile aur tablet-friendly rakha gaya hai.
+          </p>
+        </div>
+
+        <div id="configStatus" class="status-strip">Loading configuration...</div>
+      </section>
+
+      <main class="workspace-grid">
+        <section class="panel panel--primary">
+          <div class="panel__header panel__header--stack">
+            <div>
+              <p class="eyebrow">Photoshoot Studio</p>
+              <h3>Batch edit deck</h3>
             </div>
+            <p class="helper">
+              Upload, styling rules, export settings aur results ko aik hi layered editing surface par rakha gaya hai.
+            </p>
+          </div>
 
+          <div class="tool-cluster">
+            <div class="tool-cluster__head">
+              <span class="cluster-label">Input</span>
+              <span class="cluster-note">Up to 10 source photos</span>
+            </div>
             <div class="two-col">
               <label>
                 Upload images
@@ -76,7 +86,13 @@
                 <input id="photoshootBackgroundImage" type="file" accept="image/*" />
               </label>
             </div>
+          </div>
 
+          <div class="tool-cluster">
+            <div class="tool-cluster__head">
+              <span class="cluster-label">Direction</span>
+              <span class="cluster-note">Natural language editing brief</span>
+            </div>
             <label>
               AI edit instructions
               <textarea
@@ -85,7 +101,6 @@
                 placeholder="Background remove kr do, white luxury background add kr do, size 1200x1500 kr do, text 'NEW ARRIVAL' likh do"
               ></textarea>
             </label>
-
             <div class="three-col">
               <label class="checkbox">
                 <input id="photoshootRemoveBg" type="checkbox" />
@@ -100,7 +115,13 @@
                 <span>Parse instructions automatically</span>
               </label>
             </div>
+          </div>
 
+          <div class="tool-cluster">
+            <div class="tool-cluster__head">
+              <span class="cluster-label">Canvas</span>
+              <span class="cluster-note">Background, size and output</span>
+            </div>
             <div class="three-col">
               <label>
                 Background mode
@@ -154,26 +175,41 @@
                 <input id="photoshootTextColor" type="color" value="#111827" />
               </label>
             </div>
+          </div>
 
-            <div class="actions">
-              <button type="button" id="applyPhotoshootBatch">Apply to batch</button>
-              <button type="button" class="ghost" id="downloadPhotoshootBatch">Download all</button>
+          <div class="actions">
+            <button type="button" id="applyPhotoshootBatch">Apply to batch</button>
+            <button type="button" class="ghost" id="downloadPhotoshootBatch">Download all</button>
+          </div>
+
+          <p class="helper">
+            Batch upload maximum 10 images. Background removal local smart cutout hai aur plain / studio backgrounds par best kaam karti hai.
+          </p>
+
+          <div class="results-shell">
+            <div>
+              <div class="section-minihead">
+                <span class="cluster-label">Queued shots</span>
+              </div>
+              <div id="photoshootBatchGrid" class="batch-grid"></div>
             </div>
+            <div>
+              <div class="section-minihead">
+                <span class="cluster-label">Processed results</span>
+              </div>
+              <div id="photoshootResultsGrid" class="batch-grid"></div>
+            </div>
+          </div>
+        </section>
 
-            <p class="helper">
-              Batch upload maximum 10 images. Background removal local smart cutout hai aur plain / studio backgrounds par best kaam karti hai.
-            </p>
-
-            <div id="photoshootBatchGrid" class="batch-grid"></div>
-            <div id="photoshootResultsGrid" class="batch-grid"></div>
-          </section>
-
-          <form id="videoForm" class="panel panel--span">
-            <div class="panel__header">
+        <aside class="studio-sidebar">
+          <form id="videoForm" class="panel">
+            <div class="panel__header panel__header--stack">
               <div>
                 <p class="eyebrow">Motion Lab</p>
-                <h3>Simple product animation</h3>
+                <h3>Animation board</h3>
               </div>
+              <p class="helper">Reference UI ki tarah concise controls aur preview-ready grouping.</p>
             </div>
 
             <label>
@@ -181,7 +217,7 @@
               <textarea id="videoPrompt" rows="3" placeholder="soft luxury motion, realistic fabric, premium studio light"></textarea>
             </label>
 
-            <div class="three-col">
+            <div class="three-col three-col--compact">
               <label>
                 Product type
                 <select id="videoProductType">
@@ -222,9 +258,6 @@
                   <option value="high">High</option>
                 </select>
               </label>
-            </div>
-
-            <div class="three-col">
               <label>
                 Camera move
                 <select id="shotType">
@@ -252,13 +285,13 @@
                   <option value="2:1">2:1 Panorama / 360</option>
                 </select>
               </label>
+            </div>
+
+            <div class="three-col">
               <label class="checkbox checkbox--stack">
                 <input id="is360Video" type="checkbox" />
                 <span>Use 360 product style</span>
               </label>
-            </div>
-
-            <div class="three-col">
               <label>
                 Custom width
                 <input id="videoCustomWidth" type="number" min="256" step="64" placeholder="e.g. 1280" />
@@ -287,45 +320,43 @@
               <button type="button" class="ghost" id="enhanceVideoPrompt">Preview motion plan</button>
             </div>
           </form>
-        </section>
-
-        <section class="grid grid--bottom">
-          <section class="panel">
-            <div class="panel__header">
-              <div>
-                <p class="eyebrow">360 Space</p>
-                <h3>Panorama viewer + recorder</h3>
-              </div>
-            </div>
-
-            <label>
-              Load panorama image
-              <input id="panoramaInput" type="file" accept="image/*" />
-            </label>
-            <div class="actions">
-              <button type="button" id="startSpin">Auto rotate preview</button>
-              <button type="button" class="ghost" id="recordSpin">Record rotation</button>
-            </div>
-            <div id="panoramaViewer" class="viewer"></div>
-            <p class="helper">
-              Recorder browser-side WebM banata hai. Agar system mein FFmpeg ho to baad mein MP4 transcode
-              add ki ja sakti hai.
-            </p>
-          </section>
 
           <section class="panel">
-            <div class="panel__header">
+            <div class="panel__header panel__header--stack">
               <div>
                 <p class="eyebrow">Output</p>
-                <h3>Generated media</h3>
+                <h3>Prompt + media preview</h3>
               </div>
             </div>
             <div id="enhancedPromptBox" class="enhanced-box">Enhanced prompt preview yahan nazar aayega.</div>
             <div id="gallery" class="gallery"></div>
           </section>
+        </aside>
+
+        <section class="panel panel--secondary">
+          <div class="panel__header panel__header--stack">
+            <div>
+              <p class="eyebrow">360 Space</p>
+              <h3>Panorama viewer + recorder</h3>
+            </div>
+            <p class="helper">Preview zone ko bright canvas treatment diya gaya hai jisse product focus zyada clean lage.</p>
+          </div>
+
+          <label>
+            Load panorama image
+            <input id="panoramaInput" type="file" accept="image/*" />
+          </label>
+          <div class="actions">
+            <button type="button" id="startSpin">Auto rotate preview</button>
+            <button type="button" class="ghost" id="recordSpin">Record rotation</button>
+          </div>
+          <div id="panoramaViewer" class="viewer"></div>
+          <p class="helper">
+            Recorder browser-side WebM banata hai. Agar system mein FFmpeg ho to baad mein MP4 transcode add ki ja sakti hai.
+          </p>
         </section>
 
-        <section class="panel">
+        <section class="panel panel--secondary">
           <div class="panel__header">
             <div>
               <p class="eyebrow">History</p>

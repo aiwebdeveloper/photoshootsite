@@ -1,5 +1,6 @@
 const http = require("http");
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 const { URL } = require("url");
 const { execFile } = require("child_process");
@@ -13,7 +14,7 @@ const execFileAsync = promisify(execFile);
 loadEnv(path.join(rootDir, ".env.local"));
 
 const PORT = Number(process.env.PORT || 3000);
-const GENERATED_DIR = path.join(rootDir, "generated");
+const GENERATED_DIR = process.env.VERCEL ? path.join(os.tmpdir(), "visionforge-generated") : path.join(rootDir, "generated");
 
 if (!fs.existsSync(GENERATED_DIR)) {
   fs.mkdirSync(GENERATED_DIR, { recursive: true });
