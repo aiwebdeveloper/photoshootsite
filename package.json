@@ -1,0 +1,12 @@
+{
+  "name": "visionforge-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Modern AI image and video studio with prompt enhancement, inpainting, 360 preview, and animation tools.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@huggingface/inference": "^4.13.15"
+  }
+}

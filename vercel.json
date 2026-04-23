@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index"
+    },
+    {
+      "source": "/photoshoot",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/photoshoot/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/mywebpage",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/mywebpage/",
+      "destination": "/index.html"
+    }
+  ]
+}
