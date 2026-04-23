@@ -47,10 +47,13 @@ let photoshootProcessedItems = [];
 let mediaHistory = [];
 let deferredInstallPrompt = null;
 
-await loadConfig();
-setupViewer();
-loadHistory();
-registerPwa();
+// Initialize app when DOM is ready
+(async () => {
+  await loadConfig();
+  setupViewer();
+  loadHistory();
+  registerPwa();
+})();
 
 enhanceVideoPromptButton.addEventListener("click", () => previewEnhancedPrompt("video"));
 videoForm.addEventListener("submit", handleVideoSubmit);
